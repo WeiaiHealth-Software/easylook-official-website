@@ -4,17 +4,17 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "version:patch": "bash scripts/bump-version.sh patch",
-    "version:minor": "bash scripts/bump-version.sh minor",
-    "version:major": "bash scripts/bump-version.sh major",
-    "version:set": "bash scripts/bump-version.sh",
+    "version:patch": "release-it patch --ci",
+    "version:minor": "release-it minor --ci",
+    "version:major": "release-it major --ci",
+    "version:set": "release-it --ci",
     "build": "rsbuild build",
-    "build:release-meta": "bash scripts/build-with-release-meta.sh",
-    "build:release-bundle": "bash scripts/build-release-bundle.sh",
+    "build:release-meta": "node scripts/build-release-bundle.js --build-only",
+    "build:release-bundle": "node scripts/build-release-bundle.js",
     "dev": "rsbuild dev --open",
     "format": "prettier --write .",
     "lint": "eslint .",
-    "package:ovo": "bash scripts/package-ovo-artifact.sh",
+    "package:ovo": "node scripts/package-ovo-artifact.js",
     "preview": "rsbuild preview --port 2223",
     "sync-github-production-env": "bash scripts/sync-github-production-env.sh"
   },
@@ -47,6 +47,21 @@
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
     "prettier": "^3.7.3",
+    "release-it": "^19.2.4",
     "tailwindcss": "^4.1.18"
+  },
+  "release-it": {
+    "git": {
+      "requireCleanWorkingDir": false,
+      "commit": false,
+      "tag": false,
+      "push": false
+    },
+    "npm": {
+      "publish": false
+    },
+    "github": {
+      "release": false
+    }
   }
 }

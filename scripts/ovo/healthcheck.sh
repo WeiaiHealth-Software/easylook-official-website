@@ -6,7 +6,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 case "${1:-check}" in
   check)
-    wait_for_service_health "${EASYLOOK_SITE_HEALTHCHECK_TIMEOUT:-30}"
+    wait_for_service_health "${OVO_HEALTHCHECK_TIMEOUT:-30}"
     ;;
   once)
     check_service_health_once

@@ -1,7 +1,9 @@
 // @ts-check
+import process from 'node:process';
 import { defineConfig, loadEnv } from '@rsbuild/core';
 import { pluginReact } from '@rsbuild/plugin-react';
 import { pluginSvgr } from '@rsbuild/plugin-svgr';
+import { Compilation, sources } from '@rspack/core';
 
 import { codeInspectorPlugin } from 'code-inspector-plugin';
 
@@ -24,6 +26,61 @@ const normalizePublicUrl = (value) => {
 };
 
 const publicUrl = normalizePublicUrl(parsed.PUBLIC_URL ?? process.env.PUBLIC_URL);
+const buildInfo = {
+  VERSION: packageJson.version,
+  BUILD_TIME: process.env.BUILD_TIME || new Date().toISOString(),
+  COMMIT_HASH: process.env.GIT_COMMIT_HASH || process.env.GITHUB_SHA || 'unknown',
+  RELEASE_ID:
+    process.env.RELEASE_ID || process.env.GITHUB_SHA || process.env.GIT_COMMIT_HASH || 'local',
+};
+
+class BuildMetadataPlugin {
+  apply(compiler) {
+    compiler.hooks.compilation.tap('BuildMetadataPlugin', (compilation) => {
+      compilation.hooks.processAssets.tap(
+        {
+          name: 'BuildMetadataPlugin',
+          stage: Compilation.PROCESS_ASSETS_STAGE_ADDITIONS,
+        },
+        () => {
+          const asset = compilation.getAsset('index.html');
+          if (asset) {
+            const content = asset.source.source().toString();
+            const filtered = content
+              .split(/\r?\n/)
+              .filter((line) => {
+                const trimmed = line.trim();
+                return !(
+                  trimmed.startsWith('<meta name="easylook:version"') ||
+                  trimmed.startsWith('<meta name="easylook:commit"') ||
+                  trimmed.startsWith('<meta name="easylook:release"') ||
+                  trimmed.startsWith('<script id="buildinfo"')
+                );
+              })
+              .join('\n');
+
+            const injected = [
+              `  <meta name="easylook:version" content="${buildInfo.VERSION}" />`,
+              `  <meta name="easylook:commit" content="${buildInfo.COMMIT_HASH}" />`,
+              `  <meta name="easylook:release" content="${buildInfo.RELEASE_ID}" />`,
+              `  <script id="buildinfo" type="application/json">${JSON.stringify(buildInfo)}</script>`,
+            ].join('\n');
+
+            compilation.updateAsset(
+              'index.html',
+              new sources.RawSource(filtered.replace('</head>', `${injected}\n</head>`)),
+            );
+          }
+
+          compilation.emitAsset(
+            'version.json',
+            new sources.RawSource(`${JSON.stringify(buildInfo, null, 2)}\n`),
+          );
+        },
+      );
+    });
+  }
+}
 
 export default defineConfig({
   server: {
@@ -39,12 +96,13 @@ export default defineConfig({
   source: {
     define: {
       'import.meta.env.APP_VERSION': JSON.stringify(packageJson.version),
+      'import.meta.env.BUILD_INFO': JSON.stringify(buildInfo),
     },
   },
   plugins: [pluginReact(), pluginSvgr()],
   tools: {
     rspack: {
-      plugins: [codeInspectorPlugin({ bundler: 'rspack' })],
+      plugins: [codeInspectorPlugin({ bundler: 'rspack' }), new BuildMetadataPlugin()],
     },
   },
   html: {

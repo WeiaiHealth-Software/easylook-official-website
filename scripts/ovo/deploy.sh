@@ -31,16 +31,16 @@ sync_static_payload() {
     )
   fi
 
-  rm -rf "$EASYLOOK_SITE_TARGET_ROOT"
-  mkdir -p "$EASYLOOK_SITE_TARGET_ROOT"
+  rm -rf "$OVO_DEPLOY_TARGET_ROOT"
+  mkdir -p "$OVO_DEPLOY_TARGET_ROOT"
   if command -v rsync >/dev/null 2>&1; then
-    rsync -a --delete "$tmp_dir/" "$EASYLOOK_SITE_TARGET_ROOT/"
+    rsync -a --delete "$tmp_dir/" "$OVO_DEPLOY_TARGET_ROOT/"
   else
     (
       cd "$tmp_dir"
       tar -cf - .
     ) | (
-      cd "$EASYLOOK_SITE_TARGET_ROOT"
+      cd "$OVO_DEPLOY_TARGET_ROOT"
       tar -xf -
     )
   fi
@@ -50,22 +50,22 @@ sync_static_payload() {
 
 write_release_metadata() {
   if [ -f "$RELEASE_JSON" ]; then
-    cp "$RELEASE_JSON" "$EASYLOOK_SITE_TARGET_ROOT/release.json"
+    cp "$RELEASE_JSON" "$OVO_DEPLOY_TARGET_ROOT/release.json"
   fi
 }
 
 require_static_payload
-log "syncing static assets from $STATIC_SOURCE_DIR to $EASYLOOK_SITE_TARGET_ROOT"
+log "syncing static assets from $STATIC_SOURCE_DIR to $OVO_DEPLOY_TARGET_ROOT"
 sync_static_payload
-if [ ! -f "$EASYLOOK_SITE_TARGET_ROOT/index.html" ]; then
-  log "copy failed: missing $EASYLOOK_SITE_TARGET_ROOT/index.html after sync"
+if [ ! -f "$OVO_DEPLOY_TARGET_ROOT/index.html" ]; then
+  log "copy failed: missing $OVO_DEPLOY_TARGET_ROOT/index.html after sync"
   exit 1
 fi
 write_release_metadata
 log "copied static assets for release $RELEASE_ID (v$APP_VERSION)"
 
 if bash "$SCRIPT_DIR/healthcheck.sh" check; then
-  log "site ready at $EASYLOOK_SITE_TARGET_ROOT and $EASYLOOK_SITE_HEALTHCHECK_URL"
+  log "site ready at $OVO_DEPLOY_TARGET_ROOT and $OVO_HEALTHCHECK_URL"
 else
   log "deployment finished, but health check did not return HTTP 200"
   exit 1

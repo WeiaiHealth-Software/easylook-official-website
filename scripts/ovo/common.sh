@@ -7,10 +7,10 @@ ENV_FILE="$BUNDLE_DIR/.env"
 RUNTIME_ENV_FILE="$BUNDLE_DIR/.env.runtime"
 STATIC_SOURCE_DIR="$BUNDLE_DIR/runtime/public"
 RELEASE_JSON="$BUNDLE_DIR/release.json"
-EASYLOOK_SITE_TARGET_ROOT="${EASYLOOK_SITE_TARGET_ROOT:-/var/www/easylook-website/build}"
-EASYLOOK_SITE_HEALTHCHECK_URL="${EASYLOOK_SITE_HEALTHCHECK_URL:-http://localhost/easylook-website/}"
-EASYLOOK_SITE_HEALTHCHECK_TIMEOUT="${EASYLOOK_SITE_HEALTHCHECK_TIMEOUT:-30}"
-EASYLOOK_SITE_PUBLIC_BASE="${EASYLOOK_SITE_PUBLIC_BASE:-/easylook-website/}"
+OVO_DEPLOY_TARGET_ROOT="${OVO_DEPLOY_TARGET_ROOT:-${EASYLOOK_SITE_TARGET_ROOT:-/var/www/easylook-website/build}}"
+OVO_HEALTHCHECK_URL="${OVO_HEALTHCHECK_URL:-${EASYLOOK_SITE_HEALTHCHECK_URL:-http://localhost/}}"
+OVO_HEALTHCHECK_TIMEOUT="${OVO_HEALTHCHECK_TIMEOUT:-${EASYLOOK_SITE_HEALTHCHECK_TIMEOUT:-30}}"
+OVO_PUBLIC_URL="${OVO_PUBLIC_URL:-${EASYLOOK_SITE_PUBLIC_BASE:-/}}"
 APP_VERSION="${APP_VERSION:-0.0.0}"
 RELEASE_ID="${RELEASE_ID:-dev}"
 
@@ -31,16 +31,16 @@ load_bundle_env() {
 }
 
 filesystem_ready() {
-  [ -d "$EASYLOOK_SITE_TARGET_ROOT" ] && [ -f "$EASYLOOK_SITE_TARGET_ROOT/index.html" ]
+  [ -d "$OVO_DEPLOY_TARGET_ROOT" ] && [ -f "$OVO_DEPLOY_TARGET_ROOT/index.html" ]
 }
 
 http_probe() {
   if command -v curl >/dev/null 2>&1; then
-    curl --fail --silent --show-error --location "$EASYLOOK_SITE_HEALTHCHECK_URL" >/dev/null
+    curl --fail --silent --show-error --location "$OVO_HEALTHCHECK_URL" >/dev/null
     return $?
   fi
   if command -v wget >/dev/null 2>&1; then
-    wget --quiet --server-response --output-document=/dev/null "$EASYLOOK_SITE_HEALTHCHECK_URL" 2>&1 \
+    wget --quiet --server-response --output-document=/dev/null "$OVO_HEALTHCHECK_URL" 2>&1 \
       | awk 'BEGIN{ok=0} /^  HTTP\\// { if ($2 == "200") ok=1; else ok=0 } END{ exit ok ? 0 : 1 }'
     return $?
   fi
@@ -60,7 +60,7 @@ check_service_health_once() {
 }
 
 wait_for_service_health() {
-  local timeout="${1:-$EASYLOOK_SITE_HEALTHCHECK_TIMEOUT}"
+  local timeout="${1:-$OVO_HEALTHCHECK_TIMEOUT}"
   local elapsed=0
   while [ "$elapsed" -lt "$timeout" ]; do
     if check_service_health_once; then
@@ -88,11 +88,11 @@ print_service_status() {
     esac
   fi
   echo "service_name=easylook-website"
-  echo "target_root=$EASYLOOK_SITE_TARGET_ROOT"
+  echo "target_root=$OVO_DEPLOY_TARGET_ROOT"
   echo "release_id=$RELEASE_ID"
   echo "app_version=$APP_VERSION"
-  echo "public_base=$EASYLOOK_SITE_PUBLIC_BASE"
-  echo "healthcheck_url=$EASYLOOK_SITE_HEALTHCHECK_URL"
+  echo "public_base=$OVO_PUBLIC_URL"
+  echo "healthcheck_url=$OVO_HEALTHCHECK_URL"
   echo "filesystem_status=$filesystem_status"
   echo "http_status=$http_status"
 }

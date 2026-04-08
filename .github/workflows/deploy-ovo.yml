@@ -21,13 +21,14 @@ jobs:
       RELEASE_ID: ${{ github.sha }}
       ARTIFACT_DIR: /tmp/ovo-release/${{ github.sha }}
       BUNDLE_DIR: /tmp/ovo-release/${{ github.sha }}/bundle
-      OVO_SERVER_URL: https://guard-x.site/ovo-server
+      OVO_SERVER_URL: ${{ secrets.OVO_SERVER_URL }}
       OVO_DEPLOY_TOKEN: ${{ secrets.OVO_DEPLOY_TOKEN }}
       OVO_TARGET_CLIENT_ID: ${{ vars.OVO_TARGET_CLIENT_ID }}
       OVO_SERVICE_ID: ${{ vars.OVO_SERVICE_ID }}
-      PUBLIC_URL: ${{ vars.OVO_PUBLIC_URL }}
-      EASYLOOK_SITE_TARGET_ROOT: ${{ vars.OVO_DEPLOY_TARGET_ROOT }}
-      EASYLOOK_SITE_HEALTHCHECK_URL: ${{ vars.OVO_HEALTHCHECK_URL }}
+      OVO_PUBLIC_URL: ${{ vars.OVO_PUBLIC_URL }}
+      OVO_DEPLOY_TARGET_ROOT: ${{ vars.OVO_DEPLOY_TARGET_ROOT }}
+      OVO_HEALTHCHECK_URL: ${{ vars.OVO_HEALTHCHECK_URL }}
+      OVO_HEALTHCHECK_TIMEOUT: ${{ vars.OVO_HEALTHCHECK_TIMEOUT }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -46,19 +47,20 @@ jobs:
 
       - name: Build Release Bundle
         run: |
-          : "${PUBLIC_URL:=/easylook-website/}"
-          : "${EASYLOOK_SITE_TARGET_ROOT:=/var/www/easylook-website/build}"
-          : "${EASYLOOK_SITE_HEALTHCHECK_URL:=http://localhost${PUBLIC_URL}}"
-          export PUBLIC_URL
-          export EASYLOOK_SITE_PUBLIC_BASE="$PUBLIC_URL"
-          export EASYLOOK_SITE_TARGET_ROOT
-          export EASYLOOK_SITE_HEALTHCHECK_URL
-          bash scripts/build-release-bundle.sh
+          if [ -z "${OVO_SERVER_URL:-}" ]; then
+            echo "OVO_SERVER_URL is required" >&2
+            exit 1
+          fi
+          if [ -z "${OVO_DEPLOY_TOKEN:-}" ]; then
+            echo "OVO_DEPLOY_TOKEN is required" >&2
+            exit 1
+          fi
+          node scripts/build-release-bundle.js
 
       - name: Package Release Archive
         id: package
         run: |
-          bash scripts/package-ovo-artifact.sh | tee "$RUNNER_TEMP/package-ovo-artifact.log"
+          node scripts/package-ovo-artifact.js | tee "$RUNNER_TEMP/package-ovo-artifact.log"
           ZIP_PATH="$(sed -n 's/^zip_path=//p' "$RUNNER_TEMP/package-ovo-artifact.log" | tail -n 1)"
           if [ -z "$ZIP_PATH" ]; then
             echo "zip_path output is missing" >&2
@@ -90,9 +92,7 @@ jobs:
             echo "OVO_SERVICE_ID is required" >&2
             exit 1
           fi
-          MANIFEST_JSON="$(
-            python3 -c 'import json, sys; print(json.dumps(json.load(open(sys.argv[1], "r", encoding="utf-8")), ensure_ascii=False, separators=(",", ":")))' "$BUNDLE_DIR/meta.json"
-          )"
+          MANIFEST_JSON="$(node -e "const fs=require('node:fs'); const manifest=JSON.parse(fs.readFileSync(process.argv[1], 'utf8')); process.stdout.write(JSON.stringify(manifest));" "$BUNDLE_DIR/meta.json")"
 
           ovo-ci publish \
             --server "$OVO_SERVER_URL" \
