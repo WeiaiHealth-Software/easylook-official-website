@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import useScrollAnimation from '../../hooks/useScrollAnimation';
 import './Encyclopedia.css';
 import { LuArrowRight, LuCalendar } from 'react-icons/lu';
@@ -94,9 +95,9 @@ const Encyclopedia = () => {
 
         {/* Bottom Actions */}
         <div className="encyclopedia-footer">
-          <a href="/encyclopedia" className="view-more-btn">
+          <Link to="/encyclopedia" className="view-more-btn">
             {t('viewMore')} <LuArrowRight className="action-icon" />
-          </a>
+          </Link>
         </div>
       </div>
     </section>

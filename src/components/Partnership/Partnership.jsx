@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom';
 const Partnership = ({ showBenefits = true }) => {
   const { t } = useTranslation('partnership');
   const [ref, isVisible] = useScrollAnimation(0.1);
+  const heroBackgroundImage = `${import.meta.env.BASE_URL}company.jpg`;
 
   return (
     <section className="partnership-container" ref={ref}>
@@ -28,7 +29,10 @@ const Partnership = ({ showBenefits = true }) => {
         </div>
 
         {/* Hero Section */}
-        <div className="partnership-hero">
+        <div
+          className="partnership-hero"
+          style={{ backgroundImage: `url(${heroBackgroundImage})` }}
+        >
           <div className="hero-badge">{t('hero.badge')}</div>
           <h3 className="hero-title">{t('hero.title')}</h3>
           <p className="hero-cta-text">{t('hero.cta')}</p>

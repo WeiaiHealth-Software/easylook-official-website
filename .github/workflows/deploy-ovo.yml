@@ -1,0 +1,103 @@
+name: Deploy To OVO
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-ovo-production
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      RELEASE_ID: ${{ github.sha }}
+      ARTIFACT_DIR: /tmp/ovo-release/${{ github.sha }}
+      BUNDLE_DIR: /tmp/ovo-release/${{ github.sha }}/bundle
+      OVO_SERVER_URL: https://guard-x.site/ovo-server
+      OVO_DEPLOY_TOKEN: ${{ secrets.OVO_DEPLOY_TOKEN }}
+      OVO_TARGET_CLIENT_ID: ${{ vars.OVO_TARGET_CLIENT_ID }}
+      OVO_SERVICE_ID: ${{ vars.OVO_SERVICE_ID }}
+      PUBLIC_URL: ${{ vars.OVO_PUBLIC_URL }}
+      EASYLOOK_SITE_TARGET_ROOT: ${{ vars.OVO_DEPLOY_TARGET_ROOT }}
+      EASYLOOK_SITE_HEALTHCHECK_URL: ${{ vars.OVO_HEALTHCHECK_URL }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: yarn
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build Release Bundle
+        run: |
+          : "${PUBLIC_URL:=/easylook-website/}"
+          : "${EASYLOOK_SITE_TARGET_ROOT:=/var/www/easylook-website/build}"
+          : "${EASYLOOK_SITE_HEALTHCHECK_URL:=http://localhost${PUBLIC_URL}}"
+          export PUBLIC_URL
+          export EASYLOOK_SITE_PUBLIC_BASE="$PUBLIC_URL"
+          export EASYLOOK_SITE_TARGET_ROOT
+          export EASYLOOK_SITE_HEALTHCHECK_URL
+          bash scripts/build-release-bundle.sh
+
+      - name: Package Release Archive
+        id: package
+        run: |
+          bash scripts/package-ovo-artifact.sh | tee "$RUNNER_TEMP/package-ovo-artifact.log"
+          ZIP_PATH="$(sed -n 's/^zip_path=//p' "$RUNNER_TEMP/package-ovo-artifact.log" | tail -n 1)"
+          if [ -z "$ZIP_PATH" ]; then
+            echo "zip_path output is missing" >&2
+            exit 1
+          fi
+          echo "zip_path=$ZIP_PATH" >> "$GITHUB_OUTPUT"
+
+      - name: Install ovo-ci
+        env:
+          OVO_CI_BIN_DIR: /tmp/ovo-ci-bin
+        run: |
+          set -euo pipefail
+          mkdir -p "$OVO_CI_BIN_DIR"
+          curl -fsSL -H "Authorization: Bearer $OVO_DEPLOY_TOKEN" "$OVO_SERVER_URL/install/ovo-ci.sh" \
+            | bash -s -- --server "$OVO_SERVER_URL" --token "$OVO_DEPLOY_TOKEN" --bin-dir "$OVO_CI_BIN_DIR"
+          test -x "$OVO_CI_BIN_DIR/ovo-ci"
+          "$OVO_CI_BIN_DIR/ovo-ci" version
+          echo "$OVO_CI_BIN_DIR" >> "$GITHUB_PATH"
+
+      - name: Publish Release
+        env:
+          ZIP_PATH: ${{ steps.package.outputs.zip_path }}
+        run: |
+          if [ -z "${OVO_TARGET_CLIENT_ID:-}" ]; then
+            echo "OVO_TARGET_CLIENT_ID is required" >&2
+            exit 1
+          fi
+          if [ -z "${OVO_SERVICE_ID:-}" ]; then
+            echo "OVO_SERVICE_ID is required" >&2
+            exit 1
+          fi
+          MANIFEST_JSON="$(
+            python3 -c 'import json, sys; print(json.dumps(json.load(open(sys.argv[1], "r", encoding="utf-8")), ensure_ascii=False, separators=(",", ":")))' "$BUNDLE_DIR/meta.json"
+          )"
+
+          ovo-ci publish \
+            --server "$OVO_SERVER_URL" \
+            --token "$OVO_DEPLOY_TOKEN" \
+            --service-id "$OVO_SERVICE_ID" \
+            --client-id "$OVO_TARGET_CLIENT_ID" \
+            --artifact "$ZIP_PATH" \
+            --manifest-json "$MANIFEST_JSON"

@@ -4,11 +4,19 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "version:patch": "bash scripts/bump-version.sh patch",
+    "version:minor": "bash scripts/bump-version.sh minor",
+    "version:major": "bash scripts/bump-version.sh major",
+    "version:set": "bash scripts/bump-version.sh",
     "build": "rsbuild build",
+    "build:release-meta": "bash scripts/build-with-release-meta.sh",
+    "build:release-bundle": "bash scripts/build-release-bundle.sh",
     "dev": "rsbuild dev --open",
     "format": "prettier --write .",
     "lint": "eslint .",
-    "preview": "rsbuild preview --port 2223"
+    "package:ovo": "bash scripts/package-ovo-artifact.sh",
+    "preview": "rsbuild preview --port 2223",
+    "sync-github-production-env": "bash scripts/sync-github-production-env.sh"
   },
   "dependencies": {
     "gsap": "^3.14.2",
