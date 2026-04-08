@@ -1,6 +1,6 @@
 {
   "name": "new_easylook_website",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "private": true,
   "type": "module",
   "scripts": {
@@ -53,8 +53,10 @@
   "release-it": {
     "git": {
       "requireCleanWorkingDir": false,
-      "commit": false,
-      "tag": false,
+      "commit": true,
+      "commitMessage": "chore: release v${version}",
+      "tag": true,
+      "tagName": "v${version}",
       "push": false
     },
     "npm": {

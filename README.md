@@ -192,8 +192,9 @@ yarn version:set -- 1.2.3
 ```
 
 当前配置下：
-- `release-it` 只负责更新 [package.json](/Users/aaron/Sites/@weiai/official-websites/easylook-website/package.json) 和 lockfile 中的版本
-- 不会自动创建 git commit、tag、push
+- `release-it` 会更新 [package.json](/Users/aaron/Sites/@weiai/official-websites/easylook-website/package.json) 和 lockfile 中的版本
+- 会自动创建 release commit，并打 `v<version>` tag
+- 不会自动 push
 - 不会发布 npm package，也不会创建 GitHub Release
 
 对应配置放在 [package.json](/Users/aaron/Sites/@weiai/official-websites/easylook-website/package.json) 的 `release-it` 字段里，后续如果你想把“改版本 + 打 tag + 发 GitHub Release”连起来，也可以继续在这里扩展
