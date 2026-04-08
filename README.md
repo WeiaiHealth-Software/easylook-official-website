@@ -39,6 +39,11 @@ OVO_SERVICE_ID=replace-with-service-id
 # OVO_HEALTHCHECK_TIMEOUT=30
 ```
 
+补充约束：
+- 所有 `OVO_*` 变量都会被写入 bundle 的 `meta.json / release.json`
+- OVO 后台查看 bundle 历史时，会直接展示这份 `OVO_*` 配置快照
+- 如果你不希望某个值出现在历史记录里，就不要把它设计成 `OVO_*` 变量
+
 配置说明：
 
 - `OVO_SERVER_URL`
@@ -125,8 +130,9 @@ bash scripts/sync-github-production-env.sh
 - [scripts/build-release-bundle.js](/Users/aaron/Sites/@weiai/official-websites/easylook-website/scripts/build-release-bundle.js)
   - 顶层构建主入口
   - 会整理 `BUILD_TIME / GIT_COMMIT_HASH / RELEASE_ID` 这些构建环境变量并执行前端构建
-  - 默认继续生成 OVO 可发布的 bundle 目录，复制 `scripts/ovo/*` 到 bundle，并写入 `.env` 和 `meta.json`
+  - 默认继续生成 OVO 可发布的 bundle 目录，复制 `scripts/ovo/*` 到 bundle，并写入 `.env`、`meta.json`、`release.json`
   - `bundle_name` 和最终 zip 文件名优先跟随 tag，非 tag 构建时回退为 `v<package version>.zip`
+  - 会把当前全部 `OVO_*` 环境变量按稳定排序写进 `meta.json.ovo_env`
   - 传入 `--build-only` 时，只构建前端和版本元信息，不生成 bundle
   - 产物位于 `.local/releases/<release-id>/bundle`
   - 使用 Node 内置文件系统 API 和子进程调用，不依赖 Python
@@ -212,3 +218,8 @@ node scripts/package-ovo-artifact.js
 - `.local/releases/<release-id>/bundle/meta.json`
 - `.local/releases/<release-id>/bundle/runtime/public/index.html`
 - `.local/releases/<release-id>/v<package-version>.zip`
+
+其中 `meta.json / release.json` 现在除了 release、archive、deploy 信息，还会包含：
+- `ovo_env`
+  - 本次发布时全部 `OVO_*` 环境变量的快照
+  - 便于在 OVO 后台回看历史 bundle 时，确认当时到底是用哪一组部署配置发布的
