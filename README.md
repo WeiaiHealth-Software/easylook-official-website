@@ -155,6 +155,8 @@ bash scripts/sync-github-production-env.sh
   - OVO runtime 脚本共享基础库
   - bundle 在 client 上执行 `deploy.sh`、`healthcheck.sh`、`status.sh` 时都会先 source 这个文件
   - 负责加载 bundle 内 `.env`、解析运行时配置、判定文件是否就绪、执行 HTTP 健康检查、输出状态字段
+  - 当前 env 优先级是：先读 `.env.runtime`，再读 bundle 原始 `.env`
+  - 这样 runtime override 只能补充额外变量，不能覆盖 bundle 自带的稳定 OVO 配置
 
 - [scripts/ovo/deploy.sh](/Users/aaron/Sites/@weiai/official-websites/easylook-website/scripts/ovo/deploy.sh)
   - OVO client 真正执行的部署入口

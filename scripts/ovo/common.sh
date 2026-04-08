@@ -26,8 +26,12 @@ load_env_file() {
 }
 
 load_bundle_env() {
-  load_env_file "$ENV_FILE"
+  # `.env.runtime` 只作为补充变量来源，不应该覆盖 bundle 自带的稳定配置。
+  # 先加载 runtime，再加载 bundle 原始 `.env`，这样：
+  # 1. runtime 里独有的业务变量仍然可用
+  # 2. bundle 中明确写死的 OVO_*、RELEASE_ID、APP_VERSION 等稳定字段始终优先
   load_env_file "$RUNTIME_ENV_FILE"
+  load_env_file "$ENV_FILE"
 }
 
 filesystem_ready() {
