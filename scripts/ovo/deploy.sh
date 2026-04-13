@@ -48,12 +48,6 @@ sync_static_payload() {
   rm -rf "$tmp_dir"
 }
 
-write_release_metadata() {
-  if [ -f "$RELEASE_JSON" ]; then
-    cp "$RELEASE_JSON" "$OVO_DEPLOY_TARGET_ROOT/release.json"
-  fi
-}
-
 require_static_payload
 log "syncing static assets from $STATIC_SOURCE_DIR to $OVO_DEPLOY_TARGET_ROOT"
 sync_static_payload
@@ -61,7 +55,6 @@ if [ ! -f "$OVO_DEPLOY_TARGET_ROOT/index.html" ]; then
   log "copy failed: missing $OVO_DEPLOY_TARGET_ROOT/index.html after sync"
   exit 1
 fi
-write_release_metadata
 log "copied static assets for release $RELEASE_ID (v$APP_VERSION)"
 
 if bash "$SCRIPT_DIR/healthcheck.sh" check; then

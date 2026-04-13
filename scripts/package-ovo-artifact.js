@@ -110,7 +110,6 @@ meta.archive = {
 };
 
 writeFileSync(metaPath, `${JSON.stringify(meta, null, 2)}\n`);
-writeFileSync(resolve(bundleDir, "release.json"), `${JSON.stringify(meta, null, 2)}\n`);
 
 mkdirSync(artifactDir, { recursive: true });
 rmSync(zipPath, { force: true });

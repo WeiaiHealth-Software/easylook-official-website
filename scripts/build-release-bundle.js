@@ -206,9 +206,8 @@ writeFileSync(
   ].join("\n"),
 );
 
-// meta.json 既是 OVO 发布链路读取的 release manifest，
-// 也是下一步生成加密 zip 时继续补 archive 信息的基础文件。
-// release.json 这里先写成同一份内容，方便后续流程始终读取统一结构。
+// meta.json 是 OVO 发布链路读取的 release manifest，
+// 下一步生成加密 zip 时也会继续在这份文件上补 archive 信息。
 const meta = {
   release_id: releaseID,
   version: appVersion,
@@ -243,7 +242,6 @@ const meta = {
 };
 
 writeFileSync(resolve(bundleDir, "meta.json"), `${JSON.stringify(meta, null, 2)}\n`);
-writeFileSync(resolve(bundleDir, "release.json"), `${JSON.stringify(meta, null, 2)}\n`);
 
 console.log(`[*] release bundle prepared at ${bundleDir}`);
 console.log(`bundle_dir=${bundleDir}`);

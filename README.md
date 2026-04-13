@@ -40,7 +40,7 @@ OVO_SERVICE_ID=replace-with-service-id
 ```
 
 补充约束：
-- 所有 `OVO_*` 变量都会被写入 bundle 的 `meta.json / release.json`
+- 所有 `OVO_*` 变量都会被写入 bundle 的 `meta.json`
 - OVO 后台查看 bundle 历史时，会直接展示这份 `OVO_*` 配置快照
 - 如果你不希望某个值出现在历史记录里，就不要把它设计成 `OVO_*` 变量
 
@@ -125,12 +125,25 @@ bash scripts/sync-github-production-env.sh
 - `scripts/build-release-bundle.js`、`scripts/package-ovo-artifact.js`、`scripts/ovo/deploy.sh`、`scripts/ovo/healthcheck.sh` 统一读取同一套 `OVO_*` 变量，减少跨脚本重复口径
 - 顶层 `scripts/` 尽量收敛到少量入口，避免再拆出只做单一中转的小脚本
 
+## 公共部署文档
+
+以下 OVO 参考文档会作为站点静态资源一并发布到：
+
+- `/easylook-website/ovo-docs/README.md`
+- `/easylook-website/ovo-docs/github-actions-bundle-deploy.md`
+- `/easylook-website/ovo-docs/ci-deployment.md`
+- `/easylook-website/ovo-docs/deployment-responsibilities.md`
+- `/easylook-website/ovo-docs/client-tools-architecture.md`
+- `/easylook-website/ovo-docs/pure-spa-page.md`
+
+这样控制台或其他文档里的链接就不需要再指向本机绝对路径。
+
 ## scripts 目录说明
 
 - [scripts/build-release-bundle.js](/Users/aaron/Sites/@weiai/official-websites/easylook-website/scripts/build-release-bundle.js)
   - 顶层构建主入口
   - 会整理 `BUILD_TIME / GIT_COMMIT_HASH / RELEASE_ID` 这些构建环境变量并执行前端构建
-  - 默认继续生成 OVO 可发布的 bundle 目录，复制 `scripts/ovo/*` 到 bundle，并写入 `.env`、`meta.json`、`release.json`
+  - 默认继续生成 OVO 可发布的 bundle 目录，复制 `scripts/ovo/*` 到 bundle，并写入 `.env`、`meta.json`
   - `bundle_name` 和最终 zip 文件名优先跟随 tag，非 tag 构建时回退为 `v<package version>.zip`
   - 会把当前全部 `OVO_*` 环境变量按稳定排序写进 `meta.json.ovo_env`
   - 传入 `--build-only` 时，只构建前端和版本元信息，不生成 bundle
@@ -161,7 +174,6 @@ bash scripts/sync-github-production-env.sh
 - [scripts/ovo/deploy.sh](/Users/aaron/Sites/@weiai/official-websites/easylook-website/scripts/ovo/deploy.sh)
   - OVO client 真正执行的部署入口
   - 把 bundle 中的静态文件同步到 `OVO_DEPLOY_TARGET_ROOT`
-  - 写入 `release.json`
   - 最后调用 `healthcheck.sh`，只有返回 HTTP 200 才算部署成功
 
 - [scripts/ovo/healthcheck.sh](/Users/aaron/Sites/@weiai/official-websites/easylook-website/scripts/ovo/healthcheck.sh)
@@ -221,7 +233,7 @@ node scripts/package-ovo-artifact.js
 - `.local/releases/<release-id>/bundle/runtime/public/index.html`
 - `.local/releases/<release-id>/v<package-version>.zip`
 
-其中 `meta.json / release.json` 现在除了 release、archive、deploy 信息，还会包含：
+其中 `meta.json` 现在除了 release、archive、deploy 信息，还会包含：
 - `ovo_env`
   - 本次发布时全部 `OVO_*` 环境变量的快照
   - 便于在 OVO 后台回看历史 bundle 时，确认当时到底是用哪一组部署配置发布的
