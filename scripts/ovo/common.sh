@@ -37,33 +37,46 @@ filesystem_ready() {
   [ -d "$OVO_DEPLOY_TARGET_ROOT" ] && [ -f "$OVO_DEPLOY_TARGET_ROOT/index.html" ]
 }
 
+healthcheck_timeout_seconds() {
+  case "${OVO_HEALTHCHECK_TIMEOUT:-30}" in
+    ''|*[!0-9]*) echo 30 ;;
+    *) echo "$OVO_HEALTHCHECK_TIMEOUT" ;;
+  esac
+}
+
 http_probe() {
+  local timeout
+  timeout="$(healthcheck_timeout_seconds)"
   if command -v curl >/dev/null 2>&1; then
-    curl --fail --silent --show-error --location "$OVO_HEALTHCHECK_URL" >/dev/null
+    curl --fail --silent --show-error --location \
+      --max-time "$timeout" \
+      --connect-timeout 5 \
+      --output /dev/null \
+      "$OVO_HEALTHCHECK_URL"
     return $?
   fi
   if command -v wget >/dev/null 2>&1; then
-    wget --quiet --server-response --output-document=/dev/null "$OVO_HEALTHCHECK_URL" 2>&1 \
-      | awk 'BEGIN{ok=0} /^  HTTP\\// { if ($2 == "200") ok=1; else ok=0 } END{ exit ok ? 0 : 1 }'
+    wget --quiet --timeout="$timeout" --tries=1 --spider "$OVO_HEALTHCHECK_URL"
     return $?
   fi
   return 127
 }
 
 check_service_health_once() {
+  local probe_status=0
   if ! filesystem_ready; then
     return 1
   fi
-  http_probe
-  case "$?" in
+  http_probe || probe_status=$?
+  case "$probe_status" in
     0) return 0 ;;
-    127) return 0 ;;
+    127) return 1 ;;
     *) return 1 ;;
   esac
 }
 
 wait_for_service_health() {
-  local timeout="${1:-$OVO_HEALTHCHECK_TIMEOUT}"
+  local timeout="${1:-$(healthcheck_timeout_seconds)}"
   local elapsed=0
   while [ "$elapsed" -lt "$timeout" ]; do
     if check_service_health_once; then
@@ -76,7 +89,7 @@ wait_for_service_health() {
 }
 
 print_service_status() {
-  local filesystem_status http_status
+  local filesystem_status http_status probe_status
   if filesystem_ready; then
     filesystem_status="ready"
   else
@@ -85,7 +98,8 @@ print_service_status() {
   if http_probe; then
     http_status="healthy"
   else
-    case "$?" in
+    probe_status=$?
+    case "$probe_status" in
       127) http_status="probe-unavailable" ;;
       *) http_status="unhealthy" ;;
     esac

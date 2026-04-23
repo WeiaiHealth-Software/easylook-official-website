@@ -2,8 +2,8 @@ name: Deploy To OVO
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - 'v*'
   workflow_dispatch:
 
 permissions:
@@ -18,9 +18,13 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     env:
-      RELEASE_ID: ${{ github.sha }}
-      ARTIFACT_DIR: /tmp/ovo-release/${{ github.sha }}
-      BUNDLE_DIR: /tmp/ovo-release/${{ github.sha }}/bundle
+      RELEASE_ID: ${{ github.ref_name }}-${{ github.sha }}
+      RELEASE_TAG: ${{ github.ref_name }}
+      APP_VERSION: ${{ github.ref_name }}
+      OVO_RELEASE_VERSION: ${{ github.ref_name }}
+      OVO_RELEASE_COMMIT: ${{ github.sha }}
+      ARTIFACT_DIR: /tmp/ovo-release/${{ github.ref_name }}-${{ github.sha }}
+      BUNDLE_DIR: /tmp/ovo-release/${{ github.ref_name }}-${{ github.sha }}/bundle
       OVO_SERVER_URL: ${{ secrets.OVO_SERVER_URL }}
       OVO_DEPLOY_TOKEN: ${{ secrets.OVO_DEPLOY_TOKEN }}
       OVO_TARGET_CLIENT_ID: ${{ vars.OVO_TARGET_CLIENT_ID }}

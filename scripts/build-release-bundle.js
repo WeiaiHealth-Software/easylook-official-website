@@ -50,18 +50,6 @@ function resolveReleaseTag(appVersion) {
   return normalized || `v${appVersion}`;
 }
 
-// bundle 历史里需要保留每次发布所用的 OVO 配置快照，
-// 这样在 OVO 后台回看某个历史 bundle 时，能直接看到当时到底带了哪些
-// client / service / healthcheck / public base 等环境变量。
-// 这里按 key 排序，保证同一组变量每次落盘出来的结构稳定，便于 diff 和排障。
-function collectOVOEnvSnapshot(env) {
-  return Object.fromEntries(
-    Object.entries(env)
-      .filter(([key]) => key.startsWith("OVO_"))
-      .sort(([left], [right]) => left.localeCompare(right)),
-  );
-}
-
 // 统一执行外部命令：
 // 1. 直接透传标准输出和错误输出，方便在 CI 里排查问题
 // 2. 只要子命令失败就立即退出，避免后续步骤继续污染现场
@@ -122,7 +110,6 @@ const deployTargetRoot =
 const healthcheckTimeout = process.env.OVO_HEALTHCHECK_TIMEOUT || "30";
 const healthcheckURL =
   process.env.OVO_HEALTHCHECK_URL || `http://localhost${publicUrl}`;
-const ovoEnvSnapshot = collectOVOEnvSnapshot(process.env);
 const repoURL =
   process.env.REPO_URL ||
   (process.env.GITHUB_SERVER_URL && process.env.GITHUB_REPOSITORY
@@ -210,35 +197,35 @@ writeFileSync(
 // 下一步生成加密 zip 时也会继续在这份文件上补 archive 信息。
 const meta = {
   release_id: releaseID,
-  version: appVersion,
   app_version: appVersion,
   bundle_name: `${releaseTag}.zip`,
   release_tag: releaseTag,
-  target_root: deployTargetRoot,
-  base_path: publicUrl,
-  healthcheck_url: healthcheckURL,
-  stack: "static-spa",
+  built_at: buildTimestamp,
   build: {
-    generated_at: buildTimestamp,
     commit_sha: buildCommitSha,
     branch: buildBranch,
     workflow: buildWorkflow,
     run_id: buildRunID,
     actor: buildActor,
   },
+  runtime: {
+    kind: "static-spa",
+    public_dir: "runtime/public",
+  },
   deploy: {
-    runtime: "static-nginx",
-    strategy: "rsync",
     entrypoint: "scripts/ovo/deploy.sh",
-    healthcheck: "scripts/ovo/healthcheck.sh",
+    target_root: deployTargetRoot,
+    strategy: "rsync",
+  },
+  healthcheck: {
+    entrypoint: "scripts/ovo/healthcheck.sh",
+    url: healthcheckURL,
+    timeout_seconds: Number(healthcheckTimeout),
   },
   links: {
     repo: repoURL,
     preview_path: publicUrl,
   },
-  // 这里显式保留本次发布时全部 OVO_* 变量，
-  // 让 OVO 后台查看 bundle 历史时，能直接复盘这次发布使用的环境配置。
-  ovo_env: ovoEnvSnapshot,
 };
 
 writeFileSync(resolve(bundleDir, "meta.json"), `${JSON.stringify(meta, null, 2)}\n`);
