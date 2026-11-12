@@ -20,3 +20,5 @@ build.zip
 build
 
 .env.production
+# upy bundle artifacts
+artifacts/

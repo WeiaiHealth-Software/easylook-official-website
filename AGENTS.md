@@ -118,14 +118,14 @@
 
 ### 基础命令
 
-- `yarn run dev` - 启动开发服务器
-- `yarn run build` - 构建生产版本
-- `yarn run preview` - 在本地预览生产版本
+- `pnpm dev` - 启动开发服务器
+- `pnpm build` - 构建生产版本
+- `pnpm preview` - 在本地预览生产版本
 
 ### 质量保证
 
-- `yarn run lint` - 运行 ESLint 检查代码规范
-- `yarn run format` - 运行 Prettier 格式化代码
+- `pnpm lint` - 运行 ESLint 检查代码规范
+- `pnpm format` - 运行 Prettier 格式化代码
 
 ---
 

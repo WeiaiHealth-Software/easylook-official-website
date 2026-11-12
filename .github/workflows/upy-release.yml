@@ -1,0 +1,64 @@
+name: upy Release
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release Tag (e.g. v0.1.12)'
+        required: false
+        default: 'v0.1.12'
+permissions:
+  contents: write
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  release-and-deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build bundle
+        env:
+          RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+          PUBLIC_URL: ${{ vars.PUBLIC_URL || '/' }}
+        run: bash scripts/upy/build-bundle.sh "$RELEASE_TAG" artifacts/bundle.zip
+      - name: Verify checksum
+        working-directory: artifacts
+        run: sha256sum -c bundle.zip.sha256
+      - name: Create immutable release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+        run: gh release create "$RELEASE_TAG" artifacts/bundle.zip artifacts/bundle.zip.sha256 --verify-tag --generate-notes
+      - name: Trigger asynchronous upy deployment
+        if: ${{ vars.UPY_AUTO_DEPLOY == 'true' }}
+        env:
+          UPY_WEBHOOK_URL: ${{ secrets.UPY_WEBHOOK_URL }}
+          UPY_WEBHOOK_SECRET: ${{ secrets.UPY_WEBHOOK_SECRET }}
+          RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+        run: |
+          set -euo pipefail
+          test -n "$UPY_WEBHOOK_URL"
+          test -n "$UPY_WEBHOOK_SECRET"
+          payload="$(python3 -c 'import json, os; print(json.dumps({"target": os.environ["RELEASE_TAG"], "force": False}, separators=(",", ":")))')"
+          signature="$(printf %s "$payload" | openssl dgst -sha256 -hmac "$UPY_WEBHOOK_SECRET" | sed 's/^.*= //')"
+          code="$(curl --silent --show-error --output /dev/stderr --write-out '%{http_code}' --request POST "$UPY_WEBHOOK_URL" \
+            --header 'Content-Type: application/json' \
+            --header "X-Hub-Signature-256: sha256=$signature" --data "$payload")"
+          if [ "$code" != 202 ]; then echo "upy webhook returned HTTP $code" >&2; exit 1; fi
+          echo 'upy accepted the deployment task; check the server for its result.'

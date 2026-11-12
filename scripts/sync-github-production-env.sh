@@ -7,23 +7,6 @@ GITHUB_ENVIRONMENT="production"
 GITHUB_REPOSITORY=""
 DRY_RUN=0
 
-REQUIRED_SECRET_KEYS=(
-  OVO_SERVER_URL
-  OVO_DEPLOY_TOKEN
-)
-
-REQUIRED_VARIABLE_KEYS=(
-  OVO_TARGET_CLIENT_ID
-  OVO_SERVICE_ID
-)
-
-OPTIONAL_VARIABLE_KEYS=(
-  OVO_PUBLIC_URL
-  OVO_DEPLOY_TARGET_ROOT
-  OVO_HEALTHCHECK_URL
-  OVO_HEALTHCHECK_TIMEOUT
-)
-
 usage() {
   cat <<'USAGE'
 usage: ./scripts/sync-github-production-env.sh [options]
@@ -85,35 +68,7 @@ if ! command -v node >/dev/null 2>&1; then
   exit 1
 fi
 
-dotenv_value() {
-  local key="$1"
-  node - "$ENV_FILE" "$key" <<'NODE'
-const fs = require("fs");
-
-const envFile = process.argv[2];
-const targetKey = process.argv[3];
-const content = fs.readFileSync(envFile, "utf8");
-
-for (const rawLine of content.split(/\r?\n/)) {
-  const line = rawLine.trim();
-  if (!line || line.startsWith("#")) continue;
-  const separatorIndex = line.indexOf("=");
-  if (separatorIndex === -1) continue;
-  const key = line.slice(0, separatorIndex).trim();
-  if (key !== targetKey) continue;
-  let value = line.slice(separatorIndex + 1).trim();
-  if (
-    value.length >= 2 &&
-    ((value.startsWith('"') && value.endsWith('"')) ||
-      (value.startsWith("'") && value.endsWith("'")))
-  ) {
-    value = value.slice(1, -1);
-  }
-  process.stdout.write(value);
-  break;
-}
-NODE
-}
+entries=()
 
 resolve_repository() {
   if [[ -n "$GITHUB_REPOSITORY" ]]; then
@@ -158,34 +113,73 @@ gh_variable_set_value() {
   gh variable set "$key" --env "$GITHUB_ENVIRONMENT" --repo "$GITHUB_REPOSITORY" --body "$value"
 }
 
+while IFS=$'\t' read -r kind key value; do
+  entries+=("${kind}"$'\t'"${key}"$'\t'"${value}")
+done < <(
+  node - "$ENV_FILE" <<'NODE'
+const fs = require("node:fs");
+
+const envFile = process.argv[2];
+const content = fs.readFileSync(envFile, "utf8");
+
+function parseEnv(raw) {
+  const result = [];
+  for (const rawLine of raw.split(/\r?\n/)) {
+    const line = rawLine.trim();
+    if (!line || line.startsWith("#")) continue;
+    const separatorIndex = line.indexOf("=");
+    if (separatorIndex === -1) continue;
+    const key = line.slice(0, separatorIndex).trim();
+    if (!key) continue;
+    let value = line.slice(separatorIndex + 1).trim();
+    if (
+      value.length >= 2 &&
+      ((value.startsWith('"') && value.endsWith('"')) ||
+        (value.startsWith("'") && value.endsWith("'")))
+    ) {
+      value = value.slice(1, -1);
+    }
+    result.push([key, value]);
+  }
+  return result;
+}
+
+function isSecretKey(key) {
+  if (key === "UPY_WEBHOOK_URL" || key === "UPY_WEBHOOK_SECRET") {
+    return true;
+  }
+  return /(TOKEN|SECRET|PASSWORD|PRIVATE|PASSPHRASE|_KEY)$/i.test(key);
+}
+
+for (const [key, value] of parseEnv(content)) {
+  const kind = isSecretKey(key) ? "secret" : "variable";
+  process.stdout.write(`${kind}\t${key}\t${value}\n`);
+}
+NODE
+)
+
+if [[ ${#entries[@]:-0} -eq 0 ]]; then
+  echo "no env entries found in $ENV_FILE" >&2
+  exit 1
+fi
+
 GITHUB_REPOSITORY="$(resolve_repository)"
 ensure_env "$GITHUB_REPOSITORY"
 
-for key in "${REQUIRED_SECRET_KEYS[@]}"; do
-  value="$(dotenv_value "$key")"
+for entry in "${entries[@]}"; do
+  kind="${entry%%$'\t'*}"
+  rest="${entry#*$'\t'}"
+  key="${rest%%$'\t'*}"
+  value="${rest#*$'\t'}"
   if [[ -z "$value" ]]; then
-    echo "missing required key in .env.production: $key" >&2
+    echo "missing value for key in .env.production: $key" >&2
     exit 1
   fi
-  echo "[*] sync secret $key"
-  gh_secret_set_value "$key" "$value"
-done
-
-for key in "${REQUIRED_VARIABLE_KEYS[@]}"; do
-  value="$(dotenv_value "$key")"
-  if [[ -z "$value" ]]; then
-    echo "missing required key in .env.production: $key" >&2
-    exit 1
+  if [[ "$kind" == "secret" ]]; then
+    echo "[*] sync secret $key"
+    gh_secret_set_value "$key" "$value"
+  else
+    echo "[*] sync variable $key"
+    gh_variable_set_value "$key" "$value"
   fi
-  echo "[*] sync variable $key"
-  gh_variable_set_value "$key" "$value"
-done
-
-for key in "${OPTIONAL_VARIABLE_KEYS[@]}"; do
-  value="$(dotenv_value "$key")"
-  if [[ -z "$value" ]]; then
-    continue
-  fi
-  echo "[*] sync variable $key"
-  gh_variable_set_value "$key" "$value"
 done

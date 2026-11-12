@@ -1,0 +1,9 @@
+# 复制到服务器 <root>/deploy.yaml；此文件不进入 bundle。
+name: easylook-website
+release:
+  provider: github
+  repository: WeiaiHealth-Software/easylook-official-website
+  asset: bundle.zip
+# 启用 CI 自动部署时，在服务器上取消注释并填入随机密钥。
+# webhook:
+#   secret: "与 GitHub Actions UPY_WEBHOOK_SECRET 一致的随机密钥"
