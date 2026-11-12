@@ -2,8 +2,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { LuPhone, LuChevronDown, LuMenu, LuX, LuHeadset } from 'react-icons/lu';
 import tinyLogo from '../../assets/tiny-logo.svg';
-import qrCodeImg from '../../assets/qr-code.png';
-import gongzhonghaoImg from '../../assets/gongzhonghao.png';
+import qrCodeImg from '../../assets/qr-code.webp';
+import gongzhonghaoImg from '../../assets/gongzhonghao.webp';
 import './Header.css';
 import { useTranslation } from 'react-i18next';
 

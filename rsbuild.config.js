@@ -26,8 +26,9 @@ const normalizePublicUrl = (value) => {
 };
 
 const publicUrl = normalizePublicUrl(parsed.PUBLIC_URL ?? process.env.PUBLIC_URL);
+const appVersion = process.env.APP_VERSION || packageJson.version;
 const buildInfo = {
-  VERSION: packageJson.version,
+  VERSION: appVersion,
   BUILD_TIME: process.env.BUILD_TIME || new Date().toISOString(),
   COMMIT_HASH: process.env.GIT_COMMIT_HASH || process.env.GITHUB_SHA || 'unknown',
   RELEASE_ID:
@@ -95,7 +96,8 @@ export default defineConfig({
   },
   source: {
     define: {
-      'import.meta.env.APP_VERSION': JSON.stringify(packageJson.version),
+      'import.meta.env.APP_VERSION': JSON.stringify(appVersion),
+      'process.env.APP_VERSION': JSON.stringify(appVersion),
       'import.meta.env.BUILD_INFO': JSON.stringify(buildInfo),
     },
   },

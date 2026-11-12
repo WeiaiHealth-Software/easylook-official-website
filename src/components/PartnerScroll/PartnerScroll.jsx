@@ -9,26 +9,26 @@ import 'swiper/css/autoplay';
 
 import './PartnerScroll.css';
 
-import partner13 from '../../assets/partners/partner-13.png';
-import partner14 from '../../assets/partners/partner-14.png';
-import partner16 from '../../assets/partners/partner-16.png';
-import partner17 from '../../assets/partners/partner-17.png';
-import partner18 from '../../assets/partners/partner-18.png';
-import partner19 from '../../assets/partners/partner-19.png';
-import partner20 from '../../assets/partners/partner-20.png';
-import partner21 from '../../assets/partners/partner-21.png';
-import partner24 from '../../assets/partners/partner-24.png';
-import partner1 from '../../assets/partners/partner-1.png';
-import partner2 from '../../assets/partners/partner-2.png';
-import partner3 from '../../assets/partners/partner-3.png';
-import partner4 from '../../assets/partners/partner-4.png';
-import partner5 from '../../assets/partners/partner-5.png';
-import partner6 from '../../assets/partners/partner-6.png';
-import partner7 from '../../assets/partners/partner-7.png';
-import partner8 from '../../assets/partners/partner-8.png';
-import partner10 from '../../assets/partners/partner-10.png';
-import partner11 from '../../assets/partners/partner-11.png';
-import partner12 from '../../assets/partners/partner-12.png';
+import partner13 from '../../assets/partners/partner-13.webp';
+import partner14 from '../../assets/partners/partner-14.webp';
+import partner16 from '../../assets/partners/partner-16.webp';
+import partner17 from '../../assets/partners/partner-17.webp';
+import partner18 from '../../assets/partners/partner-18.webp';
+import partner19 from '../../assets/partners/partner-19.webp';
+import partner20 from '../../assets/partners/partner-20.webp';
+import partner21 from '../../assets/partners/partner-21.webp';
+import partner24 from '../../assets/partners/partner-24.webp';
+import partner1 from '../../assets/partners/partner-1.webp';
+import partner2 from '../../assets/partners/partner-2.webp';
+import partner3 from '../../assets/partners/partner-3.webp';
+import partner4 from '../../assets/partners/partner-4.webp';
+import partner5 from '../../assets/partners/partner-5.webp';
+import partner6 from '../../assets/partners/partner-6.webp';
+import partner7 from '../../assets/partners/partner-7.webp';
+import partner8 from '../../assets/partners/partner-8.webp';
+import partner10 from '../../assets/partners/partner-10.webp';
+import partner11 from '../../assets/partners/partner-11.webp';
+import partner12 from '../../assets/partners/partner-12.webp';
 
 const partnerLogos = [
   partner13,

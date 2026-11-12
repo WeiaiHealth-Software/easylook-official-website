@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { LuMapPin, LuPhone, LuMail } from 'react-icons/lu';
 import Breadcrumbs from '../../components/Shared/Breadcrumbs';
 import ContactForm from '../../components/ContactForm/ContactForm';
-import mapImg from '../../assets/map.png';
+import mapImg from '../../assets/map.webp';
 import './Contact.css';
 
 const Contact = () => {

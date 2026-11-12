@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import { LuPhone, LuMail, LuMapPin } from 'react-icons/lu';
-import logoSvg from '../../assets/full-logo.png';
-import gongzhonghaoImg from '../../assets/gongzhonghao.png';
-import qrCodeImg from '../../assets/qr-code.png';
+import logoSvg from '../../assets/full-logo.webp';
+import gongzhonghaoImg from '../../assets/gongzhonghao.webp';
+import qrCodeImg from '../../assets/qr-code.webp';
 import './Footer.css';
 import { useTranslation } from 'react-i18next';
 

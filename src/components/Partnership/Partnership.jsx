@@ -15,7 +15,7 @@ import { Link } from 'react-router-dom';
 const Partnership = ({ showBenefits = true }) => {
   const { t } = useTranslation('partnership');
   const [ref, isVisible] = useScrollAnimation(0.1);
-  const heroBackgroundImage = `${import.meta.env.BASE_URL}company.jpg`;
+  const heroBackgroundImage = `${import.meta.env.BASE_URL}company.webp`;
 
   return (
     <section className="partnership-container" ref={ref}>

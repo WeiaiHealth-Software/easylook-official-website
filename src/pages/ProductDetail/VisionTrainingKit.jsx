@@ -21,10 +21,10 @@ import 'swiper/css/pagination';
 import './VisionTrainingKit.css';
 
 // Import Assets
-import qrCode from '../../assets/qr-code.png';
-import kitImage from '../../assets/xunlianhe.png';
-import taobaoQr from '../../assets/products/taobao-qrcode.png';
-import jdQr from '../../assets/products/jd-qrcode.png';
+import qrCode from '../../assets/qr-code.webp';
+import kitImage from '../../assets/xunlianhe.webp';
+import taobaoQr from '../../assets/products/taobao-qrcode.webp';
+import jdQr from '../../assets/products/jd-qrcode.webp';
 
 // Animation Helper
 const AnimatedTitle = ({ text, className }) => (
