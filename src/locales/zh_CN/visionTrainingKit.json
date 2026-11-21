@@ -85,36 +85,36 @@
           "stepId": "hart_alphabet_chart_basic",
           "title": "Hart字母表基础训练",
           "subtitle": "Hart字母表-基础调节幅度训练，是一项专门改善双眼调节功能的视觉训练方法，侧重于建立和恢复调节幅度。本训练旨在提高双眼清晰视物的范围，提高双眼在特定距离目标间的快速、准确切换焦点的能力，缓解调节滞后带来的视疲劳。",
-          "src": "https://cdn-mini.easylook.com.cn/train/hart_alphabet_chart_basic.mp4",
-          "poster": "https://cdn-mini.easylook.com.cn/train/hart_alphabet_chart_basic.jpg"
+          "src": "https://easylook-eyesight-oss.weiaihealthcare.com/train/hart_alphabet_chart_basic.mp4",
+          "poster": "https://easylook-eyesight-oss.weiaihealthcare.com/train/hart_alphabet_chart_basic.jpg"
         },
         {
           "stepId": "shilika_accommodative_agility",
           "title": "调节灵敏度训练",
           "subtitle": "视力卡-调节灵敏度训练，是一项专门改善双眼调节功能的视觉训练方法，侧重于建立和强化单双眼的调节灵敏度。本训练旨在解决功能性视觉问题，缩短双眼聚焦时间，减少视物延迟现象；缓解调节痉挛；改善调节不足，缓解调节滞后带来的视疲劳。",
-          "src": "https://cdn-mini.easylook.com.cn/train/shilika_accommodative_agility.mp4",
-          "poster": "https://cdn-mini.easylook.com.cn/train/shilika_accommodative_agility.jpg"
+          "src": "https://easylook-eyesight-oss.weiaihealthcare.com/train/shilika_accommodative_agility.mp4",
+          "poster": "https://easylook-eyesight-oss.weiaihealthcare.com/train/shilika_accommodative_agility.jpg"
         },
         {
           "stepId": "ring_convergence",
           "title": "双眼集合训练",
           "subtitle": "救生圈卡-双眼集合训练，是一项专门改善双眼融像功能的视觉训练方法，侧重于恢复和改善双眼集合功能。本训练旨在改善双眼因集合功能异常导致的视觉问题，改善集合不足导致的视物模糊，提高双眼协调性。",
-          "src": "https://cdn-mini.easylook.com.cn/train/ring_convergence.mp4",
-          "poster": "https://cdn-mini.easylook.com.cn/train/ring_convergence.jpg"
+          "src": "https://easylook-eyesight-oss.weiaihealthcare.com/train/ring_convergence.mp4",
+          "poster": "https://easylook-eyesight-oss.weiaihealthcare.com/train/ring_convergence.jpg"
         },
         {
           "stepId": "hart_alphabet_chart_advanced",
           "title": "Hart字母表高级训练",
           "subtitle": "Hart字母表-进阶调节幅度训练,是一项专门强化双眼调节功能的视觉训练方法，侧重于突破双眼清晰视物的范围，进一步提升双眼调节功能。本训练旨在提高调节精准度与持久力，强化动态调节能力，缓解调节滞后带来的视疲劳。",
-          "src": "https://cdn-mini.easylook.com.cn/train/hart_alphabet_chart_advanced.mp4",
-          "poster": "https://cdn-mini.easylook.com.cn/train/hart_alphabet_chart_advanced.jpg"
+          "src": "https://easylook-eyesight-oss.weiaihealthcare.com/train/hart_alphabet_chart_advanced.mp4",
+          "poster": "https://easylook-eyesight-oss.weiaihealthcare.com/train/hart_alphabet_chart_advanced.jpg"
         },
         {
           "stepId": "fusion_ball_fixation_training",
           "title": "注视稳定性训练",
           "subtitle": "聚散球-注视稳定性训练，是一项专门强化眼肌控制的视觉训练方法，侧重于强化眼肌控制力，增加双眼单一视物稳定性。本训练旨在减少注视时视物模糊、重影或眼球漂移的现象，提升近距离持续用眼时的视觉清晰度与舒适度，缓解视疲劳。",
-          "src": "https://cdn-mini.easylook.com.cn/train/fusion_ball_fixation_training_2.mp4",
-          "poster": "https://cdn-mini.easylook.com.cn/train/fusion_ball_fixation_training_2.jpg"
+          "src": "https://easylook-eyesight-oss.weiaihealthcare.com/train/fusion_ball_fixation_training_2.mp4",
+          "poster": "https://easylook-eyesight-oss.weiaihealthcare.com/train/fusion_ball_fixation_training_2.jpg"
         }
       ],
       "strabismus": [
@@ -122,36 +122,36 @@
           "stepId": "flipper_cards_accommodation",
           "title": "遮盖训练",
           "subtitle": "遮光眼罩-遮盖训练，是一项专门强化双眼分视的视觉训练方法，侧重于消除单眼抑制，重塑单眼正常视网膜神经通路；强化单眼眼肌控制力。本训练旨在改善因抑制导致的双眼视功能异常，提升弱视眼的参与度；改善斜视眼的视觉功能，改善双眼协调性。",
-          "src": "https://cdn-mini.easylook.com.cn/train/flipper_cards_accommodation.mp4",
-          "poster": "https://cdn-mini.easylook.com.cn/train/flipper_cards_accommodation.jpg"
+          "src": "https://easylook-eyesight-oss.weiaihealthcare.com/train/flipper_cards_accommodation.mp4",
+          "poster": "https://easylook-eyesight-oss.weiaihealthcare.com/train/flipper_cards_accommodation.jpg"
         },
         {
           "stepId": "rg_desuppression",
           "title": "红绿去抑制训练",
           "subtitle": "红绿阅读单位-去抑制训练，是一项专门强化双眼分视的视觉训练方法，侧重于消除单眼抑制，重塑单眼正常视网膜神经通路。本训练旨在改善因抑制导致的双眼视功能异常，提升弱视眼的参与度，增强双眼融合能力。",
-          "src": "https://cdn-mini.easylook.com.cn/train/rg_desuppression.mp4",
-          "poster": "https://cdn-mini.easylook.com.cn/train/rg_desuppression.jpg"
+          "src": "https://easylook-eyesight-oss.weiaihealthcare.com/train/rg_desuppression.mp4",
+          "poster": "https://easylook-eyesight-oss.weiaihealthcare.com/train/rg_desuppression.jpg"
         },
         {
           "stepId": "fusion_ball_physiological_diplopia",
           "title": "生理性复视训练",
           "subtitle": "聚散球-生理性复视训练，是一项专门针对双眼生理性视觉功能建立的视觉训练方法，侧重于恢复双眼生理性复视，建立双眼同时视。本训练旨在改善双眼集合功能异常，消除异常复视，改善双眼协调性。",
-          "src": "https://cdn-mini.easylook.com.cn/train/fusion_ball_physiological_diplopia_2.mp4",
-          "poster": "https://cdn-mini.easylook.com.cn/train/fusion_ball_physiological_diplopia_2.jpg"
+          "src": "https://easylook-eyesight-oss.weiaihealthcare.com/train/fusion_ball_physiological_diplopia_2.mp4",
+          "poster": "https://easylook-eyesight-oss.weiaihealthcare.com/train/fusion_ball_physiological_diplopia_2.jpg"
         },
         {
           "stepId": "ring_convergence",
           "title": "双眼集合训练",
           "subtitle": "救生圈卡-双眼集合训练，是一项专门改善双眼融像功能的视觉训练方法，侧重于恢复和改善双眼集合功能。本训练旨在改善双眼因集合功能异常导致的视觉问题，改善集合不足导致的视物模糊，提高双眼协调性。",
-          "src": "https://cdn-mini.easylook.com.cn/train/ring_convergence.mp4",
-          "poster": "https://cdn-mini.easylook.com.cn/train/ring_convergence.jpg"
+          "src": "https://easylook-eyesight-oss.weiaihealthcare.com/train/ring_convergence.mp4",
+          "poster": "https://easylook-eyesight-oss.weiaihealthcare.com/train/ring_convergence.jpg"
         },
         {
           "stepId": "fusion_ball_fixation_training",
           "title": "注视稳定性训练",
           "subtitle": "聚散球-注视稳定性训练，是一项专门强化眼肌控制的视觉训练方法，侧重于强化眼肌控制力，增加双眼单一视物稳定性。本训练旨在减少注视时视物模糊、重影或眼球漂移的现象，提升近距离持续用眼时的视觉清晰度与舒适度，缓解视疲劳。",
-          "src": "https://cdn-mini.easylook.com.cn/train/fusion_ball_fixation_training_2.mp4",
-          "poster": "https://cdn-mini.easylook.com.cn/train/fusion_ball_fixation_training_2.jpg"
+          "src": "https://easylook-eyesight-oss.weiaihealthcare.com/train/fusion_ball_fixation_training_2.mp4",
+          "poster": "https://easylook-eyesight-oss.weiaihealthcare.com/train/fusion_ball_fixation_training_2.jpg"
         }
       ],
       "learning": [
@@ -159,57 +159,57 @@
           "stepId": "fusion_ball_physiological_diplopia",
           "title": "生理性复视训练",
           "subtitle": "聚散球-生理性复视训练，是一项专门针对双眼生理性视觉功能建立的视觉训练方法，侧重于恢复双眼生理性复视，建立双眼同时视。本训练旨在改善双眼集合功能异常，消除异常复视，改善双眼协调性。",
-          "src": "https://cdn-mini.easylook.com.cn/train/fusion_ball_physiological_diplopia_2.mp4",
-          "poster": "https://cdn-mini.easylook.com.cn/train/fusion_ball_physiological_diplopia_2.jpg"
+          "src": "https://easylook-eyesight-oss.weiaihealthcare.com/train/fusion_ball_physiological_diplopia_2.mp4",
+          "poster": "https://easylook-eyesight-oss.weiaihealthcare.com/train/fusion_ball_physiological_diplopia_2.jpg"
         },
         {
           "stepId": "fusion_ball_fixation_training",
           "title": "注视稳定性训练",
           "subtitle": "聚散球-注视稳定性训练，是一项专门强化眼肌控制的视觉训练方法，侧重于强化眼肌控制力，增加双眼单一视物稳定性。本训练旨在减少注视时视物模糊、重影或眼球漂移的现象，提升近距离持续用眼时的视觉清晰度与舒适度，缓解视疲劳。",
-          "src": "https://cdn-mini.easylook.com.cn/train/fusion_ball_fixation_training_2.mp4",
-          "poster": "https://cdn-mini.easylook.com.cn/train/fusion_ball_fixation_training_2.jpg"
+          "src": "https://easylook-eyesight-oss.weiaihealthcare.com/train/fusion_ball_fixation_training_2.mp4",
+          "poster": "https://easylook-eyesight-oss.weiaihealthcare.com/train/fusion_ball_fixation_training_2.jpg"
         },
         {
           "stepId": "hart_alphabet_chart_basic",
           "title": "Hart字母表基础训练",
           "subtitle": "Hart字母表-基础调节幅度训练，是一项专门改善双眼调节功能的视觉训练方法，侧重于建立和恢复调节幅度。本训练旨在提高双眼清晰视物的范围，提高双眼在特定距离目标间的快速、准确切换焦点的能力，缓解调节滞后带来的视疲劳。",
-          "src": "https://cdn-mini.easylook.com.cn/train/hart_alphabet_chart_basic.mp4",
-          "poster": "https://cdn-mini.easylook.com.cn/train/hart_alphabet_chart_basic.jpg"
+          "src": "https://easylook-eyesight-oss.weiaihealthcare.com/train/hart_alphabet_chart_basic.mp4",
+          "poster": "https://easylook-eyesight-oss.weiaihealthcare.com/train/hart_alphabet_chart_basic.jpg"
         },
         {
           "stepId": "shilika_accommodative_agility",
           "title": "调节灵敏度训练",
           "subtitle": "视力卡-调节灵敏度训练，是一项专门改善双眼调节功能的视觉训练方法，侧重于建立和强化单双眼的调节灵敏度。本训练旨在解决功能性视觉问题，缩短双眼聚焦时间，减少视物延迟现象；缓解调节痉挛；改善调节不足，缓解调节滞后带来的视疲劳。",
-          "src": "https://cdn-mini.easylook.com.cn/train/shilika_accommodative_agility.mp4",
-          "poster": "https://cdn-mini.easylook.com.cn/train/shilika_accommodative_agility.jpg"
+          "src": "https://easylook-eyesight-oss.weiaihealthcare.com/train/shilika_accommodative_agility.mp4",
+          "poster": "https://easylook-eyesight-oss.weiaihealthcare.com/train/shilika_accommodative_agility.jpg"
         },
         {
           "stepId": "ring_convergence",
           "title": "双眼集合训练",
           "subtitle": "救生圈卡-双眼集合训练，是一项专门改善双眼融像功能的视觉训练方法，侧重于恢复和改善双眼集合功能。本训练旨在改善双眼因集合功能异常导致的视觉问题，改善集合不足导致的视物模糊，提高双眼协调性。",
-          "src": "https://cdn-mini.easylook.com.cn/train/ring_convergence.mp4",
-          "poster": "https://cdn-mini.easylook.com.cn/train/ring_convergence.jpg"
+          "src": "https://easylook-eyesight-oss.weiaihealthcare.com/train/ring_convergence.mp4",
+          "poster": "https://easylook-eyesight-oss.weiaihealthcare.com/train/ring_convergence.jpg"
         },
         {
           "stepId": "hart_alphabet_chart_advanced",
           "title": "Hart字母表高级训练",
           "subtitle": "Hart字母表-进阶调节幅度训练,是一项专门强化双眼调节功能的视觉训练方法，侧重于突破双眼清晰视物的范围，进一步提升双眼调节功能。本训练旨在提高调节精准度与持久力，强化动态调节能力，缓解调节滞后带来的视疲劳。",
-          "src": "https://cdn-mini.easylook.com.cn/train/hart_alphabet_chart_advanced.mp4",
-          "poster": "https://cdn-mini.easylook.com.cn/train/hart_alphabet_chart_advanced.jpg"
+          "src": "https://easylook-eyesight-oss.weiaihealthcare.com/train/hart_alphabet_chart_advanced.mp4",
+          "poster": "https://easylook-eyesight-oss.weiaihealthcare.com/train/hart_alphabet_chart_advanced.jpg"
         },
         {
           "stepId": "hart_saccade_parallel",
           "title": "平行点扫视训练",
           "subtitle": "扫视字母表-平行点扫视训练，是一项专门强化双眼扫视功能的视觉训练方法，侧重于双眼在水平位置的快速、准确的扫视运动能力。本训练旨在强化双眼准确、同步、协调的扫视能力，改善扫视精确度与速度，减少阅读中的跳字、串行或定位错误，提高阅读流畅性与视觉信息获取效率。",
-          "src": "https://cdn-mini.easylook.com.cn/train/hart_saccade_parallel_2.mp4",
-          "poster": "https://cdn-mini.easylook.com.cn/train/hart_saccade_parallel_2.jpg"
+          "src": "https://easylook-eyesight-oss.weiaihealthcare.com/train/hart_saccade_parallel_2.mp4",
+          "poster": "https://easylook-eyesight-oss.weiaihealthcare.com/train/hart_saccade_parallel_2.jpg"
         },
         {
           "stepId": "hart_saccade_random",
           "title": "随机点扫视训练",
           "subtitle": "扫视字母表-随机点扫视训练，是一项专门强化双眼扫视功能的视觉训练方法，侧重于双眼在水平及纵向位置的快速、准确的扫视运动能力。本训练旨在提高视觉搜索效率，改善随机目标扫视精确度与速度，提高双眼追踪能力与视觉信息获取效率。",
-          "src": "https://cdn-mini.easylook.com.cn/train/hart_saccade_random_2.mp4",
-          "poster": "https://cdn-mini.easylook.com.cn/train/hart_saccade_random_2.jpg"
+          "src": "https://easylook-eyesight-oss.weiaihealthcare.com/train/hart_saccade_random_2.mp4",
+          "poster": "https://easylook-eyesight-oss.weiaihealthcare.com/train/hart_saccade_random_2.jpg"
         }
       ],
       "eye_health": [
@@ -217,29 +217,29 @@
           "stepId": "hart_alphabet_chart_basic",
           "title": "Hart字母表基础训练",
           "subtitle": "Hart字母表-基础调节幅度训练，是一项专门改善双眼调节功能的视觉训练方法，侧重于建立和恢复调节幅度。本训练旨在提高双眼清晰视物的范围，提高双眼在特定距离目标间的快速、准确切换焦点的能力，缓解调节滞后带来的视疲劳。",
-          "src": "https://cdn-mini.easylook.com.cn/train/hart_alphabet_chart_basic.mp4",
-          "poster": "https://cdn-mini.easylook.com.cn/train/hart_alphabet_chart_basic.jpg"
+          "src": "https://easylook-eyesight-oss.weiaihealthcare.com/train/hart_alphabet_chart_basic.mp4",
+          "poster": "https://easylook-eyesight-oss.weiaihealthcare.com/train/hart_alphabet_chart_basic.jpg"
         },
         {
           "stepId": "shilika_accommodative_agility",
           "title": "调节灵敏度训练",
           "subtitle": "视力卡-调节灵敏度训练，是一项专门改善双眼调节功能的视觉训练方法，侧重于建立和强化单双眼的调节灵敏度。本训练旨在解决功能性视觉问题，缩短双眼聚焦时间，减少视物延迟现象；缓解调节痉挛；改善调节不足，缓解调节滞后带来的视疲劳。",
-          "src": "https://cdn-mini.easylook.com.cn/train/shilika_accommodative_agility.mp4",
-          "poster": "https://cdn-mini.easylook.com.cn/train/shilika_accommodative_agility.jpg"
+          "src": "https://easylook-eyesight-oss.weiaihealthcare.com/train/shilika_accommodative_agility.mp4",
+          "poster": "https://easylook-eyesight-oss.weiaihealthcare.com/train/shilika_accommodative_agility.jpg"
         },
         {
           "stepId": "hart_alphabet_chart_advanced",
           "title": "Hart字母表高级训练",
           "subtitle": "Hart字母表-进阶调节幅度训练,是一项专门强化双眼调节功能的视觉训练方法，侧重于突破双眼清晰视物的范围，进一步提升双眼调节功能。本训练旨在提高调节精准度与持久力，强化动态调节能力，缓解调节滞后带来的视疲劳。",
-          "src": "https://cdn-mini.easylook.com.cn/train/hart_alphabet_chart_advanced.mp4",
-          "poster": "https://cdn-mini.easylook.com.cn/train/hart_alphabet_chart_advanced.jpg"
+          "src": "https://easylook-eyesight-oss.weiaihealthcare.com/train/hart_alphabet_chart_advanced.mp4",
+          "poster": "https://easylook-eyesight-oss.weiaihealthcare.com/train/hart_alphabet_chart_advanced.jpg"
         },
         {
           "stepId": "fusion_ball_fixation_training",
           "title": "注视稳定性训练",
           "subtitle": "聚散球-注视稳定性训练，是一项专门强化眼肌控制的视觉训练方法，侧重于强化眼肌控制力，增加双眼单一视物稳定性。本训练旨在减少注视时视物模糊、重影或眼球漂移的现象，提升近距离持续用眼时的视觉清晰度与舒适度，缓解视疲劳。",
-          "src": "https://cdn-mini.easylook.com.cn/train/fusion_ball_fixation_training_2.mp4",
-          "poster": "https://cdn-mini.easylook.com.cn/train/fusion_ball_fixation_training_2.jpg"
+          "src": "https://easylook-eyesight-oss.weiaihealthcare.com/train/fusion_ball_fixation_training_2.mp4",
+          "poster": "https://easylook-eyesight-oss.weiaihealthcare.com/train/fusion_ball_fixation_training_2.jpg"
         }
       ],
       "pushup_binocular_double": [
@@ -247,8 +247,8 @@
           "stepId": "pushup_binocular_double",
           "title": "双眼俯卧撑训练 (双眼集合训练)",
           "subtitle": "双眼俯卧撑训练，是一项专门强化双眼协调调节功能的视觉训练方法，通过双眼同时训练提升双眼的调节协调性和调节持久力。本训练旨在改善双眼调节功能异常，增强双眼协调工作能力，提升视觉舒适度。",
-          "src": "https://cdn-mini.easylook.com.cn/train/pushup_binocular_double.mp4",
-          "poster": "https://cdn-mini.easylook.com.cn/train/pushup_binocular_double.jpg"
+          "src": "https://easylook-eyesight-oss.weiaihealthcare.com/train/pushup_binocular_double.mp4",
+          "poster": "https://easylook-eyesight-oss.weiaihealthcare.com/train/pushup_binocular_double.jpg"
         }
       ]
     }
